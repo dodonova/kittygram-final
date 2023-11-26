@@ -142,7 +142,7 @@ jobs:
           context: ./nginx/
           push: true
           # Тут вместо username должен быть ваш логин на Docker Hub
-          tags: dodonova/taski_gateway:latest
+          tags: dodonova/kittygram_gateway:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -165,7 +165,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: "docker-compose.production.yml"
-        target: "taski"
+        target: "kittygram"
 
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -175,7 +175,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          cd taski
+          cd kittygram
           sudo docker compose -f docker-compose.production.yml pull
           sudo docker compose -f docker-compose.production.yml down
           sudo docker compose -f docker-compose.production.yml up -d
@@ -192,4 +192,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: Деплой успешно выполнен!
+        message: Проект Kittygram. Деплой успешно выполнен!
